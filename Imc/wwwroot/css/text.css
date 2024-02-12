@@ -1,0 +1,15 @@
+.text-base {
+    font-size: 16px;
+    font-weight: 500;
+    color: var(--secundary-text);
+}
+
+.text-sm {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--secundary-text);
+}
+
+.text-darkred {
+    color: #522020;
+}

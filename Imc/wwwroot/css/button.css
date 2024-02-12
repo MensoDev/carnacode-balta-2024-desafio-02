@@ -1,0 +1,35 @@
+.btn {
+    display: inline-block;
+    padding: 14px;
+    font-size: 14px;
+    font-weight: 500;
+    border-radius: 50pc;
+}
+
+a.btn {
+    text-decoration: none;
+    text-align: center;    
+}
+
+.btn-secundary {
+    background-color: var(--secundary);
+    border: 3px solid var(--secundary);
+    color: var(--black);
+    border: none;
+    cursor: pointer;
+}
+
+.btn-secundary-outline {
+    background-color: var(--white);
+    color: var(--black);
+    border: 3px solid var(--secundary);
+    cursor: pointer;
+}
+
+.btn-secundary:hover {
+    background-color: var(--secundary-dark);
+}
+
+.btn-secundary-outline:hover {
+    border: 3px solid var(--secundary-dark);
+}

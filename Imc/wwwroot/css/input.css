@@ -1,0 +1,32 @@
+.app-input {
+
+    width: 100%;
+    padding: 16px;
+    
+    border: var(--input-border-size) solid var(--input-border-color);
+    border-radius: 10px;
+    box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.1);
+    transition: 0.3s;
+
+    background-color: var(--input-background);
+    outline: none;
+}
+
+.app-input-rounded {
+    border-radius: 50px;
+}
+
+.app-input:focus {
+    border: var(--input-border-size) solid var(--secundary);
+    outline: none;
+}
+
+.app-input::placeholder {
+    color: #ccc;
+    font-size: 16px;
+}
+
+.app-input:hover {
+    border: var(--input-border-size) solid var(--secundary);
+    outline: none;
+}
