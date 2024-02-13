@@ -1,0 +1,40 @@
+﻿@page "/account/register"
+
+@inject IUserManagerService UserManager
+@inject NavigationManager NavigationManager
+
+<Page Center WithBackground Title="Criar conta">
+    <FormCard>
+        <Title>Cria sua conta</Title>
+        <Subtitle>Você precisa cria uma conta</Subtitle>
+        <Content>
+            <EditForm Model="_command" OnValidSubmit="HandleValidSubmit">
+                <DataAnnotationsValidator />
+                <div class="flex flex-column gap-4 mt-8">
+
+                    <AppTextField @bind-Value="@_command.Name" Placeholder="Seu username"/>
+                    <AppTextField @bind-Value="@_command.Email" Placeholder="Sua melhor e-mail"/>
+                    <AppTextField @bind-Value="@_command.Password" type="password" Placeholder="Sua senha"/>
+                    <AppTextField @bind-Value="@_command.ConfirmPassword" type="password" Placeholder="Confirme sua senha"/>
+
+                    <AppCheckboxField @bind-Value="@_command.IsHuman">Não sou um robô</AppCheckboxField>
+
+                    <button class="btn btn-secondary" type="submit">Criar conta</button>
+                    <a class="btn btn-secondary-outline" href="login.html">Fazer login</a>
+
+                </div>
+            </EditForm>
+        </Content>
+    </FormCard>
+</Page>
+
+@code 
+{
+    private readonly CreateUserAccountCommand _command = new();
+    
+    private async Task HandleValidSubmit()
+    {
+        var isSuccess = await UserManager.RegisterUser(_command);
+        if (isSuccess) { NavigationManager.NavigateTo("/account/login"); }
+    }
+}

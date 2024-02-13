@@ -1,0 +1,36 @@
+﻿
+<PageTitle>@Title | IMC</PageTitle>
+<div class="@CssBase">
+    @ChildContent
+</div>
+
+@code 
+{
+    private string CssBase => new CssBuilder("flex flex-column")
+        .AddClass("bg-primary", WithBackground)
+        .AddClass("items-center", ItemsCenter || Center)
+        .AddClass("justify-center", JustifyCenter || Center)
+        .AddClass("vh-full", Center)
+        .AddClass("mt-8", !Center)
+        .Build();
+    
+    [Parameter]
+    public bool Center { get; set; }
+    
+    [Parameter]
+    public bool JustifyCenter { get; set; }
+    
+    [Parameter]
+    public bool ItemsCenter { get; set; }
+    
+    [Parameter]
+    public bool WithBackground { get; set; }
+    
+    [Parameter]
+    [EditorRequired]
+    public required string Title { get; set; }
+    
+    [Parameter]
+    [EditorRequired]
+    public required RenderFragment ChildContent { get; set; }
+}

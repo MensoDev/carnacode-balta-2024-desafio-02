@@ -1,0 +1,8 @@
+﻿@inject NavigationManager NavigationManager
+<AuthorizeView>
+    <NotAuthorized>
+        @{
+            NavigationManager.NavigateTo("account/login");
+        }
+    </NotAuthorized>
+</AuthorizeView>

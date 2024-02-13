@@ -1,0 +1,68 @@
+﻿@inject IUserManagerService UserManagerService
+@inject IDiagnosticService DiagnosticService
+@inject NavigationManager NavigationManager
+@inject IToastService ToastService
+
+<section class="bg-primary">
+    <div class="flex flex-column items-center justify-center vh-full">
+
+        <div class="flex flex-row justify-center -mb-8 z-1">
+            <div class="logo-container">
+                <img class="logo-sm" src="icon-no-bg.png" alt="">
+            </div>
+        </div>
+
+        <div class="card w-card">
+
+            <div class="card-title mt-4">
+                @_diagnostic?.GetIcon() @_diagnostic?.Title
+            </div>
+
+            <div class="card-subtitle mt-2">
+                @_diagnostic?.Description
+            </div>
+
+
+            <div class="flex flex-column gap-4 mt-8">
+                <button class="btn btn-secondary" @onclick="SaveAndGoToHistory">Registrar medidas</button>
+                <button class="btn btn-secondary-outline" @onclick="BackToHistory">Ver meu histórico</button>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+@code 
+{
+    [CascadingParameter] 
+    public required BlazoredModalInstance Modal { get; set; }
+
+    private Diagnostic? _diagnostic;
+
+    protected override async Task OnInitializedAsync()
+    {
+        var user = await UserManagerService.GetCurrentUserAsync();
+        _diagnostic = await DiagnosticService.GetDraftAsync();
+        
+        if (_diagnostic is null || _diagnostic.UserId != user?.Id){
+            await DiagnosticService.RemoveDraftAsync();
+            await Modal.CloseAsync();
+            NavigationManager.NavigateTo("/");
+        }
+    }
+
+    private async Task SaveAndGoToHistory()
+    {
+        await DiagnosticService.RegisterDraftAsync();
+        ToastService.ShowSuccess("Medidas registradas com sucesso!");
+        await Modal.CloseAsync();
+        NavigationManager.NavigateTo("/");
+    }
+    
+    private async Task BackToHistory()
+    {
+        await DiagnosticService.RemoveDraftAsync();
+        await Modal.CloseAsync();
+        NavigationManager.NavigateTo("/");
+    }
+}

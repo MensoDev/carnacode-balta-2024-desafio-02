@@ -11,25 +11,42 @@ a.btn {
     text-align: center;    
 }
 
-.btn-secundary {
-    background-color: var(--secundary);
-    border: 3px solid var(--secundary);
-    color: var(--black);
-    border: none;
+.btn-primary {
+    background-color: var(--primary);
+    border: 3px solid var(--primary);
+    color: var(--white);
     cursor: pointer;
 }
 
-.btn-secundary-outline {
+.btn-primary-outline {
+    background-color: var(--white);
+    color: var(--primary);
+    border: 3px solid var(--primary);
+    cursor: pointer;
+}
+
+.btn-primary:hover {
+    background-color: var(--primary-dark);
+}
+
+.btn-secondary {
+    background-color: var(--secundary);
+    border: 3px solid var(--secundary);
+    color: var(--black);
+    cursor: pointer;
+}
+
+.btn-secondary-outline {
     background-color: var(--white);
     color: var(--black);
     border: 3px solid var(--secundary);
     cursor: pointer;
 }
 
-.btn-secundary:hover {
+.btn-secondary:hover {
     background-color: var(--secundary-dark);
 }
 
-.btn-secundary-outline:hover {
+.btn-secondary-outline:hover {
     border: 3px solid var(--secundary-dark);
 }

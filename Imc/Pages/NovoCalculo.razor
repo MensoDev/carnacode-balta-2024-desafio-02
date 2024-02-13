@@ -1,0 +1,44 @@
+﻿@page "/imc/novo"
+@inject IDiagnosticService DiagnosticService
+@inject IUserManagerService UserManager
+<Page Title="Calcular">
+    <EditForm Model="_command" OnValidSubmit="HandleValidSubmit">
+        <DataAnnotationsValidator/>
+        <div class="container flex flex-column justify-center  gap-4">
+
+            <div class="card-title mt-4">
+                Cálculo de IMC
+            </div>
+
+            <AppNumberField @bind-Value="_command.Altura" Placeholder="Altura"/>
+            <AppNumberField @bind-Value="_command.Peso" Placeholder="Peso"/>
+            <AppSexSelector @bind-Value="_command.Sex" Placeholder="Sexo"/>
+            <AppCheckboxField @bind-Value="_command.Have65YearOrMore">Eu tenho 65 anos ou mais</AppCheckboxField>
+
+            <button class="btn btn-secondary" type="submit">Calcular meu IMC</button>
+            <a class="btn btn-secondary-outline" href="create-account.html">Entenda o cálculo</a>
+        </div>
+    </EditForm>
+</Page>
+
+@code {
+    private readonly CreateDiagnosticCommand _command = new ();
+    
+    [CascadingParameter] public required IModalService Modal { get; set; }
+    
+    private async Task HandleValidSubmit()
+    {
+        var user = await UserManager.GetCurrentUserAsync();
+        
+        var options = new ModalOptions
+        { 
+            Size = ModalSize.Large,
+            DisableBackgroundCancel = true,
+            HideCloseButton = true
+        };
+        
+        await DiagnosticService.CreateDraftAsync(_command, user!.Id);
+        var reference = Modal.Show<ConfirmDiagnosticDialog>(options);
+        _ = await reference.Result;
+    }
+}

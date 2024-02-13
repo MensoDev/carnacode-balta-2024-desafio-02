@@ -1,0 +1,34 @@
+﻿@inherits  AppComponentBase
+@typeparam TValue
+
+<div class="flex flex-column gap-1">
+    <InputNumber
+        id="@Id"
+        class="@ClassInput"
+        placeholder="@Placeholder"
+        Value="@Value"
+        ValueChanged="ValueChanged"
+        ValueExpression="ValueExpression"
+        style="@Style" />
+
+    <ValidationMessage For="ValueExpression" />
+</div>
+
+@code 
+{
+    private string Id { get; } = Guid.NewGuid().ToString("N");
+    
+    private string ClassInput => new CssBuilder("app-input")
+        .AddClass("app-input-rounded", Rounded)
+        .AddClass(Class).Build();
+    
+    [Parameter]  public bool Rounded { get; set; }
+    
+    [Parameter] [EditorRequired] public TValue? Value { get; set; }
+
+    [Parameter] public EventCallback<TValue?> ValueChanged { get; set; }
+
+    [Parameter] public Expression<Func<TValue?>> ValueExpression { get; set; } = default!;
+    
+    [Parameter] public string? Placeholder { get; set; }
+}

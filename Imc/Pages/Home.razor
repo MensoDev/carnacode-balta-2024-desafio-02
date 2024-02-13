@@ -1,7 +1,66 @@
 ﻿@page "/"
+@attribute [Authorize]
+@layout AuthenticatedLayout
+@inject IDiagnosticService DiagnosticService
+@inject IUserManagerService UserManagerService
 
-<PageTitle>Home</PageTitle>
+<Page JustifyCenter ItemsCenter Title="Histórico">
+    <FormCard SimpleMode>
+        <Title>Histórico</Title>
+        <Content>
+            <EditForm Model="this">
+                <div class="flex flex-column gap-8 mt-4">
 
-<h1>Hello, world!</h1>
+                    <AppTextField @bind-Value="@_searchText" Rounded Type="text" Placeholder="Pesquisar..." OnBlur="@OnSearchTextChanged"/>
 
-Welcome to your new app.
+                    @foreach (var diagnostic in _diagnostics)
+                    {
+                        <DiagnosticItem Item="@diagnostic"/>
+                    }
+
+                    @if (_diagnostics.Length == 0)
+                    {
+                        <AppAlert Severity="AppAlertSeverity.Info">
+                            Nenhum diagnóstico encontrado.
+                        </AppAlert>
+                    }
+
+                    <div class="divider "></div>
+
+                    <a class="btn btn-secondary" href="imc/novo">Novo</a>
+
+                </div>
+            </EditForm>
+        </Content>
+    </FormCard>
+</Page>
+
+@code {
+    private Diagnostic[] _diagnostics = [];
+    private User? _user;
+    private string _searchText = "";
+
+    protected override async Task OnInitializedAsync()
+    {
+        _user = await UserManagerService.GetCurrentUserAsync();
+        if (_user is null)
+        {
+            _diagnostics = [];
+            return;
+        }
+
+        _diagnostics = (await DiagnosticService.GetAllAsync(_user.Id)).ToArray();
+    }
+
+    private async Task OnSearchTextChanged()
+    {
+        if (_user is null)
+        {
+            _diagnostics = [];
+            return;
+        }
+
+        _diagnostics = (await DiagnosticService.SearchAsync(_user.Id, _searchText)).ToArray();
+    }
+
+}

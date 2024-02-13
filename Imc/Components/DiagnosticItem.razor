@@ -1,0 +1,25 @@
+﻿
+<div class="flex flex-row gap-4">
+    <div class="square" style="background-image: url('https://i.pravatar.cc/50')">
+
+    </div>
+    <div class="flex flex-column flex-grow gap-2">
+        <div class="flex flex-row justify-between text-base flex-wrap gap-1">
+            <div class="font-bold">@Item.Title @Item.GetIcon()</div>
+            <div class="text-darkred">@Item.CreatedAt.ToPrettierString()</div>
+        </div>
+        <div class="text-sm">
+            @Item.Description
+        </div>
+        <div class="divider "></div>
+    </div>
+</div>
+
+@code 
+{
+    [Parameter]
+    [EditorRequired]
+    public required Diagnostic Item { get; set; }
+
+    
+}

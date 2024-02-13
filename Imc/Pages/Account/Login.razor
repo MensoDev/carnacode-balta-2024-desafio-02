@@ -1,0 +1,46 @@
+﻿@page "/account/login"
+@inject IUserSingInService UserSingIn
+@inject NavigationManager NavigationManager
+
+<Page Title="Login" Center WithBackground>
+    <FormCard>
+        <Title>Faça seu login</Title>
+        <Subtitle>Insira suas informações antes de medir seu IMC</Subtitle>
+        <Content>
+            
+            @if (_loginFailed is true)
+            {
+                <AppAlert Severity="AppAlertSeverity.Warning">
+                    <strong>Ops!</strong> Não foi possível fazer login, verifique suas credenciais.
+                </AppAlert>
+            }
+            
+            <EditForm Model="_command" OnValidSubmit="HandleValidSubmit">
+                <DataAnnotationsValidator/>
+                <div class="flex flex-column gap-4 mt-8">
+                    
+                    <AppTextField @bind-Value="@_command.Email" Placeholder="Seu e-mail"/>
+                    <AppTextField @bind-Value="@_command.Password" Type="password" Placeholder="Sua senha"/>
+                    <AppCheckboxField @bind-Value="_command.IsHuman">Não sou um robô</AppCheckboxField>
+
+                    <button class="btn btn-secondary" type="submit">Fazer Login</button>
+                    <a class="btn btn-secondary-outline" href="account/register">Não tenho um acesso</a>
+                </div>
+            </EditForm>
+        </Content>
+    </FormCard>
+</Page>
+
+@code
+{
+    private readonly LoginCommand _command = new();
+    private bool? _loginFailed;
+    
+    private async Task HandleValidSubmit()
+    {
+        var succeeded = await UserSingIn.SignInAsync(_command.Email!, _command.Password!);
+        if (succeeded) { NavigationManager.NavigateTo("/"); }
+        
+        _loginFailed = true;
+    }
+}

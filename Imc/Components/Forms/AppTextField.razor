@@ -1,0 +1,38 @@
+﻿@inherits  AppComponentBase
+
+<div class="flex flex-column gap-1">
+    <AppInputText
+        id="@Id"
+        class="@ClassInput"
+        placeholder="@Placeholder"
+        Value="@Value"
+        ValueChanged="ValueChanged"
+        ValueExpression="ValueExpression"
+        @onblur="@OnBlur"
+        type="@Type"
+        style="@Style" />
+
+    <ValidationMessage For="ValueExpression" />
+</div>
+
+@code 
+{
+    private string Id { get; } = Guid.NewGuid().ToString("N");
+    
+    private string ClassInput => new CssBuilder("app-input")
+        .AddClass("app-input-rounded", Rounded)
+        .AddClass(Class).Build();
+    
+    [Parameter]  public bool Rounded { get; set; }
+    
+    [Parameter] [EditorRequired] public string? Value { get; set; }
+
+    [Parameter] public EventCallback<string?> ValueChanged { get; set; }
+
+    [Parameter] public Expression<Func<string?>> ValueExpression { get; set; } = default!;
+    
+    [Parameter] public string? Placeholder { get; set; }
+    [Parameter] public string Type { get; set; } = "text";
+    
+    [Parameter] public EventCallback<FocusEventArgs> OnBlur { get; set; }
+}

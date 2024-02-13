@@ -1,0 +1,35 @@
+﻿@inherits AppComponentBase
+
+<div class="@ClassControl" @attributes="UserAttributes" style="@Style">
+    <InputCheckbox id="@_id" Value="Value" ValueChanged="ValueChanged" ValueExpression="ValueExpression"></InputCheckbox>
+    <label for="@_id">
+        <div class="app-checkbox-checkmark">
+        </div>
+        <span>@ChildContent</span>
+    </label>
+    <ValidationMessage For="@ValueExpression" />
+</div>
+
+@code 
+{
+    private readonly string _id = Guid.NewGuid().ToString();
+    
+    private string ClassControl =>
+        new CssBuilder("app-checkbox-control")
+            .AddClass(Class)
+            .Build();
+
+    [Parameter]
+    [EditorRequired]
+    public bool Value { get; set; }
+
+    [Parameter]
+    public EventCallback<bool> ValueChanged { get; set; }
+
+    [Parameter]
+    public Expression<Func<bool>> ValueExpression { get; set; } = default!;
+
+    [Parameter]
+    public RenderFragment? ChildContent { get; set; }
+
+}

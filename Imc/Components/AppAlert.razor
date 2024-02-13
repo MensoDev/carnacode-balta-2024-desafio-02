@@ -1,0 +1,22 @@
+﻿
+<div class="@CssClass">
+    @ChildContent
+</div>
+
+@code {
+
+    private string CssClass => new CssBuilder("alert")
+        .AddClass("alert-success", Severity is AppAlertSeverity.Success)
+        .AddClass("alert-danger", Severity is AppAlertSeverity.Danger)
+        .AddClass("alert-warning", Severity is AppAlertSeverity.Warning)
+        .AddClass("alert-info", Severity is AppAlertSeverity.Info)
+        .Build();
+    
+    [Parameter]
+    public AppAlertSeverity Severity { get; set; } = AppAlertSeverity.Info;
+    
+    [Parameter]
+    [EditorRequired]
+    public required RenderFragment ChildContent { get; set; }
+
+}

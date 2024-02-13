@@ -1,0 +1,46 @@
+﻿<div class="@CssLogoContainer">
+    <div class="logo-container">
+        <img class="logo-sm" src="icon-no-bg.png" alt="">
+    </div>
+</div>
+
+<div class="card w-card">
+
+    <div class="card-title mt-4">
+        @Title
+    </div>
+
+    @if (Subtitle is not null)
+    {
+        <div class="card-subtitle mt-2">
+            @Subtitle
+        </div>
+    }
+    
+    <div>
+        @Content
+    </div>
+    
+</div>
+
+@code 
+{
+    private string CssLogoContainer => new CssBuilder("flex flex-row justify-center")
+        .AddClass("-mb-8 z-1", !SimpleMode)
+        .Build();
+    
+    
+    [Parameter]
+    public required bool SimpleMode { get; set; }
+    
+    [Parameter]
+    [EditorRequired]
+    public required RenderFragment Title { get; set; }
+    
+    [Parameter]
+    public required RenderFragment? Subtitle { get; set; }
+    
+    [Parameter]
+    [EditorRequired]
+    public required RenderFragment Content { get; set; }
+}

@@ -4,6 +4,7 @@
 @import url('button.css');
 @import url('checkbox.css');
 @import url('text.css');
+@import url('alert.css');
 
 /* Remove all style - Reset */
 * {
@@ -12,6 +13,7 @@
     box-sizing: border-box;
 
     --primary: #2E1462;
+    --primary-dark: #250f53;
     --secundary: #45FEFE;
     --secundary-dark: #52eeee;
 
@@ -88,6 +90,7 @@ html, body {
 
 .validation-message {
     color: red;
+    font-size: 12px;
 }
 
 #blazor-error-ui {

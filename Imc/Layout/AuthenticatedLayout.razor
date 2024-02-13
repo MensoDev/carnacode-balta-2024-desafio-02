@@ -1,0 +1,20 @@
+﻿@inherits LayoutComponentBase
+@inject  IUserSingInService UserSingIn
+
+<RequiredAuthentication/>
+<div class="flex flex-row justify-evenly items-center gap-2" style="padding: 10px; background-color: lavender">
+    <AuthorizeView>
+        <Authorized>
+            <span class="font-bold">Olá, @context.User.Identity?.Name</span>
+            <button class="btn btn-primary" @onclick="Logout">Sair</button>
+        </Authorized>
+    </AuthorizeView>
+</div>
+<BlazoredToasts />
+@Body
+
+@code {
+
+    private async Task Logout() => await UserSingIn.SignOutAsync();
+
+}
